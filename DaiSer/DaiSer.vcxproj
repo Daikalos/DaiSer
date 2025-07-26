@@ -162,6 +162,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\DaiSer.cpp" />
     <ClCompile Include="src\Serialization\Serializer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +171,7 @@
     <ClInclude Include="include\DaiSer\DaiSer.h" />
     <ClInclude Include="include\DaiSer\Serialization\Serializer.h" />
     <ClInclude Include="include\DaiSer\Serialization\FieldID.h" />
+    <ClInclude Include="include\DaiSer\Utility\BitUtils.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

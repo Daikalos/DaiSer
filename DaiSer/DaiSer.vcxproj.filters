@@ -21,6 +21,9 @@
     <ClCompile Include="src\Serialization\Serializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DaiSer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\DaiSer\Config.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\DaiSer\DaiSer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DaiSer\Utility\BitUtils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

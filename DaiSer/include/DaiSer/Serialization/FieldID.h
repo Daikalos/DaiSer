@@ -4,6 +4,8 @@
 
 namespace DaiSer
 {
+	using FieldIDType = std::uint64_t;
+
 	class FieldID
 	{
 	public:
@@ -12,7 +14,9 @@ namespace DaiSer
 
 		};
 
+		FieldIDType GetID() const noexcept { return myID; }
+
 	private:
-		std::uint32_t myID = 0;
+		FieldIDType myID = 0;
 	};
 }
