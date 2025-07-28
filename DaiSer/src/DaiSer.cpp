@@ -18,6 +18,15 @@ DSScope::DSScope(DSStream& aSerializer)
 
 }
 
+void DSScope::LoadNextID()
+{
+
+}
+void DSScope::SkipField()
+{
+
+}
+
 DSStream::DSStream(DSState aState)
 	: myState(aState)
 {

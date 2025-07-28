@@ -8,6 +8,11 @@
 
 namespace DaiSer
 {
+	/// For clarity
+	/// 
+	///	Out = Write = Serialize -> Write to buffer from type
+	/// In	= Read	= Deserialize -> Write to type from buffer
+
 	inline constexpr FieldIDType NULL_ID = std::numeric_limits<FieldIDType>::max();
 
 	enum class DSState
@@ -26,6 +31,15 @@ namespace DaiSer
 
 	private:
 		DAISER_API DSScope(DSStream& aSerializer);
+
+		template<typename T>
+		void Write(FieldIDType aID, const T& aInData);
+
+		template<typename T>
+		void Read(FieldIDType aID, T& aInData);
+
+		DAISER_API void LoadNextID();
+		DAISER_API void SkipField();
 
 		DSStream*	mySerializer	= nullptr;
 		FieldIDType	myPrevID		= NULL_ID;
@@ -87,31 +101,40 @@ namespace DaiSer
 	{
 		assert(mySerializer != nullptr && "Serializer must be defined!");
 
-		DSStream& serializer = *mySerializer;
-
-		switch (serializer.GetState())
+		switch (mySerializer->GetState())
 		{
 			case DSState::Out:
 			{
-				std::uint64_t deltaID = (myPrevID == NULL_ID) ? aID : (aID - myPrevID - 1);
-
-				// construct field ID from id and delta ID
-
-				ODSStream& out = static_cast<ODSStream&>(serializer);
-				out.Serialize(aID, aInOutData);
-
-				myPrevID = aID;
-
+				Write(aID, aInOutData);
 				break;
 			}
 			case DSState::In:
 			{
-				IDSStream& in = static_cast<IDSStream&>(serializer);
-				in.Serialize(aID, aInOutData);
-
+				Read(aID, aInOutData);
 				break;
 			}
 		}
+	}
+
+	template<typename T>
+	inline void DSScope::Write(FieldIDType aID, const T& aInData)
+	{
+		std::uint64_t deltaID = (myPrevID == NULL_ID) ? aID : (aID - myPrevID - 1);
+
+		// construct field ID from id and delta ID
+
+		ODSStream& out = static_cast<ODSStream&>(*mySerializer);
+		out.Serialize(aID, aInData);
+
+		myPrevID = aID;
+	}
+
+	template<typename T>
+	inline void DSScope::Read(FieldIDType aID, T& aOutData)
+	{
+		IDSStream& in = static_cast<IDSStream&>(*mySerializer);
+
+		in.Serialize(aID, aOutData);
 	}
 
 	template<typename T>

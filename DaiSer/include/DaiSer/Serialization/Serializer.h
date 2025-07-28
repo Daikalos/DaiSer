@@ -134,6 +134,8 @@ namespace DaiSer
 
 		template<typename T>
 		void Deserialize(T& aOutData) const;
+
+		bool IsDone() const;
 	};
 
 	template<typename T>

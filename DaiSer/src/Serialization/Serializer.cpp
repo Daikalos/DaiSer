@@ -16,18 +16,6 @@ WriteSerializer::WriteSerializer()
 
 }
 
-ReadSerializer::ReadSerializer(std::vector<std::byte>&& aBuffer)
-	: Serializer(SerializerState::Read)
-{
-	myBuffer = std::move(aBuffer);
-}
-
-ReadSerializer::ReadSerializer(std::span<const std::byte> aBuffer)
-	: Serializer(SerializerState::Read)
-{
-	myBuffer = { aBuffer.begin(), aBuffer.end() };
-}
-
 void WriteSerializer::ReserveBytesToFit(std::size_t aNumBytesToFit)
 {
 	myBuffer.resize(myBuffer.size() + aNumBytesToFit);
@@ -43,6 +31,23 @@ void WriteSerializer::Clear()
 {
 	myBuffer.clear();
 	myOffset = 0;
+}
+
+ReadSerializer::ReadSerializer(std::vector<std::byte>&& aBuffer)
+	: Serializer(SerializerState::Read)
+{
+	myBuffer = std::move(aBuffer);
+}
+
+ReadSerializer::ReadSerializer(std::span<const std::byte> aBuffer)
+	: Serializer(SerializerState::Read)
+{
+	myBuffer = { aBuffer.begin(), aBuffer.end() };
+}
+
+bool ReadSerializer::IsDone() const
+{
+	return myOffset == myBuffer.size();
 }
 
 std::size_t SerializeImpl<std::string>::Write(const std::string& aInData, std::vector<std::byte>& aOutBytes, std::size_t aOffset)
